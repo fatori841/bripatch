@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Make sure to load the highlight.js CSS file before the Diff2Html CSS file -->
+    <link rel="stylesheet" href="assets/github.min.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/diff2html.min.css"
+    />
+    <script type="text/javascript" src="assets/diff2html.js"></script>
+  </head>
+  <script>
+    const diffString = `diff -u "./saves/server2/default/app-tier/2023-08-08 16.58.08/deployment_app-tier.yaml" "./saves/server2/default/app-tier/2023-08-08 16.59.31/deployment_app-tier.yaml"
+--- "./saves/server2/default/app-tier/2023-08-08 16.58.08/deployment_app-tier.yaml"	2023-08-08 16:58:15.993352160 +0700
++++ "./saves/server2/default/app-tier/2023-08-08 16.59.31/deployment_app-tier.yaml"	2023-08-08 16:59:38.143352362 +0700
+@@ -13,7 +13,7 @@
+     tier: app
+   name: app-tier
+   namespace: default
+-  resourceVersion: '122364'
++  resourceVersion: '122502'
+   uid: 050555a4-6441-42fc-aec9-532fbc4b6a44
+ spec:
+   progressDeadlineSeconds: 600
+@@ -63,22 +63,20 @@
+       securityContext: {}
+       terminationGracePeriodSeconds: 30
+ status:
+-  availableReplicas: 4
+   conditions:
+-  - lastTransitionTime: '2023-08-08T09:57:20Z'
+-    lastUpdateTime: '2023-08-08T09:57:20Z'
+-    message: Deployment has minimum availability.
+-    reason: MinimumReplicasAvailable
+-    status: 'True'
+-    type: Available
+   - lastTransitionTime: '2023-08-08T09:57:19Z'
+     lastUpdateTime: '2023-08-08T09:57:20Z'
+     message: ReplicaSet "app-tier-6db885585f" is progressing.
+     reason: ReplicaSetUpdated
+     status: 'True'
+     type: Progressing
++  - lastTransitionTime: '2023-08-08T09:59:53Z'
++    lastUpdateTime: '2023-08-08T09:59:53Z'
++    message: Deployment does not have minimum availability.
++    reason: MinimumReplicasUnavailable
++    status: 'False'
++    type: Available
+   observedGeneration: 3
+-  readyReplicas: 4
+   replicas: 7
+-  unavailableReplicas: 3
++  unavailableReplicas: 7
+   updatedReplicas: 3
+`;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var targetElement = document.getElementById('myDiffElement');
+      var configuration = {
+        drawFileList: false,
+        fileListToggle: false,
+        fileListStartVisible: false,
+        fileContentToggle: false,
+        matching: 'lines',
+        outputFormat: 'side-by-side',
+        synchronisedScroll: true,
+        highlight: true,
+        renderNothingWhenEmpty: false,
+      };
+      var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
+      diff2htmlUi.draw();
+      diff2htmlUi.highlightCode();
+    });
+  </script>
+  <body>
+    <div id="myDiffElement"></div>
+  </body>
+</html>
