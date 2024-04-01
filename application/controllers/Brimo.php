@@ -1,4 +1,4 @@
-<?php 	
+ <?php 	
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Brimo extends CI_Controller {
@@ -58,6 +58,7 @@ class Brimo extends CI_Controller {
 		
 		$this->load->view('template/template_isi',$data);
 	}
+	
 	// data user
 	public function show_data_deleted_user()
 	{
