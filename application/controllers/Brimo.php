@@ -672,8 +672,8 @@ class Brimo extends CI_Controller {
 		echo $data_return;
 	}
 
+	
 	//ocp compare
-
 	public function compare_ocp()
 	{		
 		//$datapost = $this->input->post();

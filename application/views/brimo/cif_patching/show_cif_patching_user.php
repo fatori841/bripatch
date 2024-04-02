@@ -1,12 +1,12 @@
 <div class="pagetitle">
-  <h1 align="center">BRIMO - User CIF patching </h1>
+  <h1 align="center">BRIMO - Update CIF User </h1>
 </div>
 
 <div class="card mb-3">
 	<h5 class="card-title"></h5>
 	<div class="card-body">
 
-	  <form id="search_data_user" class="row g-3 needs-validation" action="" method="post" novalidate>
+	  <form id="search_user_cif" class="row g-3 needs-validation" action="" method="post" novalidate>
 
       <div class="row mb-3" >
       <label for="parameter_txt" class="col-sm-2 col-form-label">Parameter</label>
@@ -15,6 +15,14 @@
 			  <option selected value="username_opt">username</option>
               <option value="cif_opt">cif</option>
 			</select>
+		  </div>
+		</div>
+
+		<div class="row mb-3">
+		  <label for="value_txt" class="col-sm-2 col-form-label">Value</label>
+		  <div class="col-sm-10">
+			<input type="text" class="form-control" name="value_txt" id="value_txt" required>
+			<div class="invalid-feedback">Please enter the value.</div>
 		  </div>
 		</div>
 
@@ -33,7 +41,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	$('#search_data_user').submit(function(){
+	$('#search_user_cif').submit(function(){
 		$.ajax({
 			type : "POST",
 			url  : "<?=site_url('Brimo/search_user_cif');?>",
