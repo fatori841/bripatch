@@ -1418,6 +1418,7 @@ class Brimo_model extends CI_Model
 
 		$value_cif_dep = $data["user-cif_field_dep"];
 		$value_username_deposito = $data["username_dep_txt"]
+		$value_account_deposito = $data[""]
 
 		if ($value_username_deposito != '' ){
 			// Add account_deposito to query where (AND) to patch cif for single account_deposito
