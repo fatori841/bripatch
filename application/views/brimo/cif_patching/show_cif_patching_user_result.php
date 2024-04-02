@@ -22,7 +22,7 @@
 						<tr>
 							<th scope="row"><?php echo ($key+1);?></th>
 							<td><?php echo $d->username;?>
-                                <input type="hidden" class="form-control" name="username_txt" id="username_txt" value=<?php echo $d->id; ?>>                        
+                                <input type="hidden" class="form-control" name="username_txt" id="username_txt" value=<?php echo $d->username; ?>>                        
                             </td>
 							<td><?php echo $d->name;?></td>
 							<td><input type="text" class="form-control" name="user-cif_field" id="user-cif_field" value="<?php echo $d->cif;?>"><</td>
