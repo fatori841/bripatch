@@ -1383,7 +1383,7 @@ class Brimo_model extends CI_Model
 		$value_username_profile = $data["username_txt"];
 
 		if($value_username_profile != ''){
-			$query = "UPDATE tbl_user_profile SET cif = '".$value_cif_pro."' WHERE username = ".$value_username_profile.";";
+			$query = "UPDATE tbl_user_profile SET cif = '".$value_cif_pro."' WHERE username = '".$value_username_profile."';";
 			$db_brimo->query($query);
 				
 			if ($db_brimo->affected_rows() > 0){
@@ -1422,7 +1422,7 @@ class Brimo_model extends CI_Model
 
 		if ($value_username_deposito != '' ){
 			// Add account_deposito to query where (AND) to patch cif for single account_deposito
-			$query = "UPDATE tbl_user_deposito SET cif = '".$value_cif_dep."' WHERE username = ".$value_username_deposito.";";		
+			$query = "UPDATE tbl_user_deposito SET cif = '".$value_cif_dep."' WHERE username = '".$value_username_deposito."' AND account_deposito = ".$value_account_deposito." ;";		
 			$db_brimo->query($query);
 
 			if ($db_brimo->affected_rows() > 0){
