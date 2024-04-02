@@ -652,11 +652,22 @@ class Brimo extends CI_Controller {
 		echo $this->load->view('brimo/cif_patching/show_cif_patching_user_result', $data_return, true);
 	}
 	
-	public function edit_data_user_cif()
+	// edit cif user_profile
+	public function edit_user_profile_cif()
 	{		
 		$datapost = $this->input->post();
 		
-		$data_return = $this->Brimo_model->update_data_user_cif($datapost);
+		$data_return = $this->Brimo_model->update_user_profile_cif($datapost);
+		
+		echo $data_return;
+	}
+
+	// edit cif user_deposito
+	public function edit_user_deposito_cif()
+	{
+		$datapost = $this->input->post();
+		
+		$data_return = $this->Brimo_model->update_user_deposito_cif($datapost);
 		
 		echo $data_return;
 	}

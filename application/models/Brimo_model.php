@@ -1374,19 +1374,15 @@ class Brimo_model extends CI_Model
 					return $data_return;	
 	}
 
-	// separate between user_profile and user_deposito 
-	public function update_data_user_cif($data)
+	// UPDATE CIF user_profile 
+	public function update_user_profile_cif($data)
 	{
 		$db_brimo = $this->load->database('brimo_slave', TRUE) //for testing use brimo slave database
 
 		$value_cif_pro = $data["user-cif_field"];
-		$value_cif_dep = $data["user-cif_field_dep"]; 
 		$value_username_profile = $data["username_txt"];
-		$value_username_deposito = $data["username_dep_txt"]
-		
-		// update cif on user_profile table
-		if($value_username_profile != ''  ){
 
+		if($value_username_profile != ''){
 			$query = "UPDATE tbl_user_profile SET cif = '".$value_cif_pro."' WHERE username = ".$value_username_profile.";";
 			$db_brimo->query($query);
 				
@@ -1411,10 +1407,20 @@ class Brimo_model extends CI_Model
 	
 		}
 		
-		// update cif on user_deposito table
-		if ($value_username_deposito != '' ){
+		return $msg;
+		
+	}
 
-			// Add account_deposito to query where (AND) to patch cif for single account
+	// Update CIF user_deposito
+	public function update_user_deposito_cif($data)
+	{
+		$db_brimo = $this->load->database('brimo_slave', TRUE)
+
+		$value_cif_dep = $data["user-cif_field_dep"];
+		$value_username_deposito = $data["username_dep_txt"]
+
+		if ($value_username_deposito != '' ){
+			// Add account_deposito to query where (AND) to patch cif for single account_deposito
 			$query = "UPDATE tbl_user_deposito SET cif = '".$value_cif_dep."' WHERE username = ".$value_username_deposito.";";		
 			$db_brimo->query($query);
 
@@ -1440,8 +1446,9 @@ class Brimo_model extends CI_Model
 		}
 			
 		return $msg;
+
 	}
-	
+
 	public function get_mnv_parameter() {		
 		$db_brimo_slave = $this->load->database('db_brimo_149', TRUE);
 		//$db_brimo_slave = $this->load->database('brimo_slave', TRUE);

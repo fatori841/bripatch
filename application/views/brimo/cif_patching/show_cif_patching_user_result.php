@@ -59,7 +59,7 @@ $(document).ready(function(){
 		if(confirm("Apakah kamu yakin?")){
 			$.ajax({
 				type : "POST",
-				url  : "<?=site_url('Brimo/edit_data_userprofile_cif');?>",
+				url  : "<?=site_url('Brimo/edit_user_profile_cif');?>",
 				data : $(this).serialize(),
 				beforeSend:function(){
 					//$('#ajax-loader').show();
@@ -170,7 +170,7 @@ $(document).ready(function(){
 		if(confirm("Apakah kamu yakin?")){
 			$.ajax({
 				type : "POST",
-				url  : "<?=site_url('Brimo/edit_data_userdeposito_cif');?>",
+				url  : "<?=site_url('Brimo/edit_user_deposito_cif');?>",
 				data : $(this).serialize(),
 				beforeSend:function(){
 					//$('#ajax-loader').show();
