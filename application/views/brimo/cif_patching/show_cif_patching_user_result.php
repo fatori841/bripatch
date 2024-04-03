@@ -21,11 +21,12 @@
 						?>
 						<tr>
 							<th scope="row"><?php echo ($key+1);?></th>
-							<td><?php echo $d->username;?>
-                                <input type="hidden" class="form-control" name="username_txt" id="username_txt" value=<?php echo $d->username; ?>>                        
+							<td>
+								<?php echo $d->username;?>
+                                <input type="hidden" class="form-control" name="username_txt" id="username_txt" value="<?php echo $d->username;?>">                    
                             </td>
 							<td><?php echo $d->name;?></td>
-							<td><input type="text" class="form-control" name="user-cif_field" id="user-cif_field" value="<?php echo $d->cif;?>"><</td>
+							<td><input type="text" class="form-control" name="profile_cif_field" id="profile_cif_field" value="<?php echo $d->cif;?>"></td>
 						</tr>
                         <tr>
 							<td colspan=2> 
@@ -137,7 +138,7 @@ $(document).ready(function(){
 							<td><?php echo $d->account_deposito;?>
 								<input type="hidden" class="form-control" name="acc_deposito_txt" id="acc_deposito_txt" value=<?php echo $d->account_deposito; ?>>	
 							</td>
-							<td><input type="text" class="form-control" name="user-cif_field_dep" id="user-cif_field_dep" value="<?php echo $d->cif;?>"><</td> 
+							<td><input type="text" class="form-control" name="userdeposito_cif_field" id="userdeposito_cif_field" value="<?php echo $d->cif;?>"></td> 
 						</tr>
                         <tr>
 							<td colspan=2> 
