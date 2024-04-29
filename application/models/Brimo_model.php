@@ -8,11 +8,10 @@ class Brimo_model extends CI_Model
 	}
 	
 	public function patch_logging($data_ins){
-		$this->db->insert('patch_log',$data_ins); //q1
+		$this->db->insert('patch_log',$data_ins);
 	}
-	
 	public function audit_log($data_ins){
-		$this->db->insert('audit_log',$data_ins); //q2
+		$this->db->insert('audit_log',$data_ins);
 	}
 	
 	public function get_data_user($data)
@@ -1344,18 +1343,18 @@ class Brimo_model extends CI_Model
 			
 		return $msg;
 	}
-
-	// user CIF patching 
+	
+	// PATCHING CIF USER
 	public function get_user_cif($data)
 	{
 		$db_brimo = $this->load->database('db_brimo_149', TRUE);
+		//$db_brimo = $this->load->database('brimo_slave', TRUE);
 		$username = '';
 		$data_return = NULL;
-
+		
 		// validate option for get_user_cif
 		if ($data['parameter_txt'] == 'username_opt'){
 			$username = $data['value_txt'];
-			
 		} else if ($data['parameter_txt']  == 'cif_opt'){
 			$query = "select username from tbl_user_profile where cif = '".$data['value_txt']."' limit 1;"; 
 			$result = $db_brimo->query($query)->result();
@@ -1368,30 +1367,30 @@ class Brimo_model extends CI_Model
 			$query = "SELECT username, name, cif FROM tbl_user_profile WHERE username = '".$username."' limit 1;";
 			$data_return['user_profile'] = $db_brimo->query($query)->result();
 							
-			$query = "SELECT username, account_name, account_deposito, cif FROM tbl_user_deposito WHERE username = '".$username."' AND status = 3;"; //status : 3 ==> akun yang aktif 
+			$query = "SELECT reference_num, username, account_name as 'name', account_deposito, cif FROM tbl_user_deposito WHERE username = '".$username."' AND status = 3;"; 
 			$data_return['user_deposito'] = $db_brimo->query($query)->result();
 		}
-					return $data_return;	
+		return $data_return;	
 	}
-
+	
 	// UPDATE CIF user_profile 
 	public function update_user_profile_cif($data)
 	{
-		$db_brimo = $this->load->database('db_brimo_149', TRUE);
+		$db_brimo = $this->load->database('db_brimo_149', TRUE); 
 		$msg = '';
-
-		$value_username_profile = $data["username_txt"];
-		$value_cif_pro = $data["profile_cif_field"];
 		
-		if($value_username_profile != ''){
-			$query = "UPDATE tbl_user_profile SET cif = '".$value_cif_pro."' WHERE username = '".$value_username_profile."';";
+		$value_USERP = $data["username_txt"];
+		$value_CIFP = $data["user_profile_cif_field"];
+
+		if($value_USERP != ''){
+			$query = "UPDATE tbl_user_profile SET cif = '".$value_CIFP."' WHERE username = '".$value_USERP."';";
 			$db_brimo->query($query);
 				
 			if ($db_brimo->affected_rows() > 0){
-				$msg = 'data rekening dengan username '.$value_username_profile.' berhasil disesuaikan.';
+				$msg = 'data cif user_profile dengan username '.$value_USERP.' berhasil disesuaikan.';
 				$status = 1;
 			} else{
-				$msg = 'data rekening dengan username '.$value_username_profile.' gagal disesuaikan';
+				$msg = 'data cif user_profile dengan username '.$value_USERP.' gagal disesuaikan';
 				$status = 0;
 			}
 			
@@ -1411,30 +1410,28 @@ class Brimo_model extends CI_Model
 		return $msg;
 		
 	}
-
+		
 	// Update CIF user_deposito
 	public function update_user_deposito_cif($data)
 	{
 		$db_brimo = $this->load->database('db_brimo_149', TRUE);
 		$msg = '';
-
-		$value_username_deposito = $data["username_dep_txt"];
-		$value_account_deposito = $data["acc_deposito_txt"];
-		$value_cif_dep = $data["deposito_cif_field"];
 		
-		if ($value_username_deposito != '' ){
-			// Add account_deposito to query where (AND) to patch cif for single account_deposito
-			$query = "UPDATE tbl_user_deposito SET cif = '".$value_cif_dep."' WHERE username = '".$value_username_deposito."' AND account_deposito = '".$value_account_deposito."' ;";		
+		$referenceNum = $data["reference_num"];
+		$cif = $data["cif"];
+		
+		if($referenceNum != ''){
+			$query = "UPDATE tbl_user_deposito SET cif = '".$cif."' WHERE reference_num = '".$referenceNum."' ;";
 			$db_brimo->query($query);
-
+			
 			if ($db_brimo->affected_rows() > 0){
-				$msg = 'data rekening dengan username '.$value_username_deposito.' berhasil disesuaikan.';
-				$status = 1; 
+				$msg = 'data cif user_deposito dengan reference_num '.$referenceNum.' berhasil disesuaikan.';
+				$status = 1;
 			} else{
-				$msg = 'data rekening dengan username '.$value_username_deposito.' gagal disesuaikan';
+				$msg = 'data cif user_deposito dengan reference_num '.$referenceNum.' gagal disesuaikan';
 				$status = 0;
 			}
-			
+				
 			//create data log
 			$data_log = array(
 				'username'=>$this->session->userdata('ibo_username'),
@@ -1445,13 +1442,14 @@ class Brimo_model extends CI_Model
 				'patching_date'=>date('Y-m-d H:i:s'),
 			);
 			$this->patch_logging($data_log);
-
+				
 		}
-			
+						
 		return $msg;
 
 	}
-
+	
+		
 	public function get_mnv_parameter() {		
 		$db_brimo_slave = $this->load->database('db_brimo_149', TRUE);
 		//$db_brimo_slave = $this->load->database('brimo_slave', TRUE);

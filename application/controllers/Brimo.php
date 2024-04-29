@@ -1,4 +1,4 @@
- <?php 	
+<?php 	
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Brimo extends CI_Controller {
@@ -58,7 +58,6 @@ class Brimo extends CI_Controller {
 		
 		$this->load->view('template/template_isi',$data);
 	}
-	
 	// data user
 	public function show_data_deleted_user()
 	{
@@ -617,7 +616,6 @@ class Brimo extends CI_Controller {
 		echo $this->load->view('brimo/product_type/show_acc_product_type_result', $data_return, true);
 	}
 
-	
 	public function edit_data_user_account()
 	{		
 		$datapost = $this->input->post();
@@ -626,8 +624,8 @@ class Brimo extends CI_Controller {
 		
 		echo $data_return;
 	}
-
-	//patch CIF Number
+	
+	// Patching data CIF User
 	public function show_cif_patching_user()
 	{
 		$this->page_validation();
@@ -665,6 +663,11 @@ class Brimo extends CI_Controller {
 	// edit cif user_deposito
 	public function edit_user_deposito_cif()
 	{
+		//$referenceNum = $this->input->post('reference_num');
+		//$cif = $this->input->post('cif');
+		
+		//$data_return = $this->Brimo_model->update_user_deposito_cif($referenceNum, $cif);
+		
 		$datapost = $this->input->post();
 		
 		$data_return = $this->Brimo_model->update_user_deposito_cif($datapost);
@@ -673,7 +676,6 @@ class Brimo extends CI_Controller {
 	}
 
 	
-	//ocp compare
 	public function compare_ocp()
 	{		
 		//$datapost = $this->input->post();
@@ -904,6 +906,81 @@ class Brimo extends CI_Controller {
 		
 		//echo'<pre>';print_r($arr_compare);echo'</pre>';
 	}
+	
+	//compare micro v2
+	public function compare_micro_v2()
+	{
+		$this->page_validation();
+		
+
+		$data_menu = $this->Menu_model->get_menu_apps(1);
+		$data_menu_result = $data_menu->result();
+		
+		
+		$arr_data = array();
+		$data['sidemenu'] = $data_menu_result;
+		$data['isi'] = $this->load->view('brimo/micro/compare_micro_v2', $arr_data, true);
+		
+		$this->load->view('template/template_isi',$data);
+	}
+	
+	public function capture_micro_compare_result_v2()
+	{
+		$datapost = $this->input->post();
+		
+		$data_micro = array('capture_status'=>0, 'namespace'=>'brimo', 'deployment'=>$datapost['deployment_txt']);
+		$data_return['micro_list'] = $this->Micro_model->get_capture_micro($data_micro);
+		
+		echo $this->load->view('brimo/micro/capture_micro_compare_result_v2', $data_return, true);
+	}
+	
+	public function compare_micro_detail_v2()
+	{
+		$datapost = $this->input->post();
+		
+		$parent_id = $datapost['radio_compare'];
+		sort($parent_id);
+		
+		$data_view = array();
+		
+		$data_view['out_before_detail'] = $this->Micro_model->get_capture_micro_detail(array("capture_id"=>$parent_id[0]));
+		$data_view['out_after_detail'] = $this->Micro_model->get_capture_micro_detail(array("capture_id"=>$parent_id[1]));
+		
+		echo $this->load->view('brimo/micro/compare_micro_detail_v2', $data_view, true);
+	}
+	
+	public function compare_micro_result_v2()
+	{
+			
+		$datapost = $this->input->post();
+		
+		$manifest_type_query = [
+			'Deployment' => '{spec}',
+			'HPA' => '{spec}|del(.spec.scaleTargetRef)',
+			'Config Map' => '{data}',
+			'Secret' => '{data}'
+		];
+		
+		$out_before_detail = $this->Micro_model->get_capture_micro_detail(array("id"=>$datapost["radio_compare_before"][0]));
+		$out_after_detail = $this->Micro_model->get_capture_micro_detail(array("id"=>$datapost["radio_compare_after"][0]));
+		
+		$data_return = array();
+		$data_view = array();
+		
+		$data_view["location_before"] = $out_before_detail[0]->location;
+		$data_view["location_after"] = $out_after_detail[0]->location;
+		
+		$exec_string = "/home/administrator/capture_micro_manifest/compare.sh '".$out_before_detail[0]->location."' '".$manifest_type_query[$out_before_detail[0]->manifest_type]."' '".$out_after_detail[0]->location."' '".$manifest_type_query[$out_after_detail[0]->manifest_type]."'";
+		
+		exec($exec_string, $data_view["diff_string"]);
+		
+		$data_return["compare_result"] = (bool) $data_view["diff_string"];
+		$data_return["html"] = $this->load->view('brimo/micro/compare_micro_result_v2', $data_view, true);
+		
+		header('Content-Type: application/json; charset=utf-8');
+		echo json_encode($data_return);
+	}
+	
 	//buka tutup parameter
 	public function show_parameter()
 	{
