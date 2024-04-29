@@ -28,7 +28,7 @@ Models
 
 dir : application/models/Brimo_model.php
 
-- public function get_user_cif($data), 
-- public function update_user_profile_cif($data),  
+- public function get_user_cif($data) 
+- public function update_user_profile_cif($data)  
 - public function update_user_deposito_cif($data)
 
