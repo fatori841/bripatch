@@ -1383,8 +1383,8 @@ class Brimo_model extends CI_Model
 		$value_CIFP = $data["user_profile_cif_field"];
 
 		if($value_USERP != ''){
-			$query = "UPDATE tbl_user_profile SET cif = '".$value_CIFP."' WHERE username = '".$value_USERP."';";
-			$db_brimo->query($query);
+			$query = "UPDATE tbl_user_profile SET cif = ? WHERE username = ? ;";
+			$db_brimo->query($query, array($value_CIFP, $value_USERP));
 				
 			if ($db_brimo->affected_rows() > 0){
 				$msg = 'data cif user_profile dengan username '.$value_USERP.' berhasil disesuaikan.';
@@ -1421,8 +1421,8 @@ class Brimo_model extends CI_Model
 		$cif = $data["cif"];
 		
 		if($referenceNum != ''){
-			$query = "UPDATE tbl_user_deposito SET cif = '".$cif."' WHERE reference_num = '".$referenceNum."' ;";
-			$db_brimo->query($query);
+			$query = "UPDATE tbl_user_deposito SET cif = ? WHERE reference_num = ? ;";
+			$db_brimo->query($query, array($cif, $referenceNum));
 			
 			if ($db_brimo->affected_rows() > 0){
 				$msg = 'data cif user_deposito dengan reference_num '.$referenceNum.' berhasil disesuaikan.';
